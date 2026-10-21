@@ -3035,9 +3035,9 @@
 			(uuid "2da023a2-0671-49f3-a190-97e3355363ff")
 		)
 		(embedded_fonts no)
-		(model "HMU2103NL.stp"
+				(model "${KIPRJMOD}/3dmodels/HMU2103NL.stp"
 			(offset
-				(xyz 0 0 1.249999981)
+				(xyz 0 0 1.25)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -5140,9 +5140,9 @@
 			(uuid "e20f5c55-205a-4162-a470-0361e70f75c2")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_Molex.3dshapes/Molex_Micro-Fit_3.0_43045-1600_2x08_P3.00mm_Horizontal.step"
+																(model "${KIPRJMOD}/3dmodels/430451600.stp"
 			(offset
-				(xyz 0 0 0)
+				(xyz 10.5 3.62 3.65)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -7078,9 +7078,9 @@
 			(uuid "df089abb-f142-4aea-a76e-a601ca86b2ee")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_Molex.3dshapes/Molex_Micro-Fit_3.0_43045-0400_2x02_P3.00mm_Horizontal.step"
+				(model "${KIPRJMOD}/3dmodels/Molex_43045-0400.step"
 			(offset
-				(xyz 0 0 0)
+				(xyz -2.075 -0.255 5.81)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -12623,9 +12623,9 @@
 			(uuid "16819204-6fb7-4a20-9eb2-06c1437531d6")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_Molex.3dshapes/Molex_Micro-Fit_3.0_43045-0400_2x02_P3.00mm_Horizontal.step"
+				(model "${KIPRJMOD}/3dmodels/Molex_43045-0400.step"
 			(offset
-				(xyz 0 0 0)
+				(xyz -2.075 -0.255 5.81)
 			)
 			(scale
 				(xyz 1 1 1)
@@ -13167,9 +13167,9 @@
 			(uuid "699ddf33-018d-4c0e-b369-77ca74d95f26")
 		)
 		(embedded_fonts no)
-		(model "HMU2103NL.stp"
+				(model "${KIPRJMOD}/3dmodels/HMU2103NL.stp"
 			(offset
-				(xyz 0 0 1.249999981)
+				(xyz 0 0 1.25)
 			)
 			(scale
 				(xyz 1 1 1)
