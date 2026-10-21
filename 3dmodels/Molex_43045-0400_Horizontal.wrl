@@ -1,0 +1,147 @@
+#VRML V2.0 utf8
+# Molex Micro-Fit 3.0 Horizontal Header (2x02)
+Group {
+  children [
+    # Main Housing (Black High-Temp Nylon)
+    Transform {
+      translation 0 -3.75 3.45
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.15 0.15 0.15
+              specularColor 0.25 0.25 0.25
+              ambientIntensity 0.2
+              shininess 0.4
+            }
+          }
+          geometry Box {
+            size 9.65 11.50 6.90
+          }
+        }
+      ]
+    }
+    # Latch Ramp on top
+    Transform {
+      translation 0 -2.75 7.50
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.18 0.18 0.18
+              specularColor 0.25 0.25 0.25
+              ambientIntensity 0.2
+              shininess 0.4
+            }
+          }
+          geometry Box {
+            size 3.6 4.0 1.2
+          }
+        }
+      ]
+    }
+    # Metal Retention Tabs (Metal Solder Nails)
+    Transform {
+      translation -5.23 -1.5 2.0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.9
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.8 3.0 4.0
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 5.23 -1.5 2.0
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.9
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.8 3.0 4.0
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -1.50 1.5 1.5
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.75
+              specularColor 0.95 0.95 0.85
+              shininess 0.9
+            }
+          }
+          geometry Box {
+            size 0.64 0.64 3.0
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -1.50 -1.5 1.5
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.75
+              specularColor 0.95 0.95 0.85
+              shininess 0.9
+            }
+          }
+          geometry Box {
+            size 0.64 0.64 3.0
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1.50 1.5 1.5
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.75
+              specularColor 0.95 0.95 0.85
+              shininess 0.9
+            }
+          }
+          geometry Box {
+            size 0.64 0.64 3.0
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1.50 -1.5 1.5
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.75
+              specularColor 0.95 0.95 0.85
+              shininess 0.9
+            }
+          }
+          geometry Box {
+            size 0.64 0.64 3.0
+          }
+        }
+      ]
+    }
+  ]
+}

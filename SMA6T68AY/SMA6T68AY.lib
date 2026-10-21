@@ -1,0 +1,28 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model SMA6T68AY
+#/1384667/1560942/2.50/2/2/TVS Diode (Uni-directional)
+DEF SMA6T68AY D 0 30 Y Y 1 F N
+F0 "D" 400 350 50 H V L BNN
+F1 "SMA6T68AY" 400 250 50 H V L BNN
+F2 "DIOM5126X265N" 400 150 50 H I L BNN
+F3 "https://www.st.com/resource/en/datasheet/sma6ty.pdf" 400 50 50 H I L BNN
+F4 "ESD Suppressors / TVS Diodes 600W 4kW Transil SMA 5V to 70V Uni" 400 -50 50 H I L BNN "Description"
+F5 "2.65" 400 -150 50 H I L BNN "Height"
+F6 "STMicroelectronics" 400 -250 50 H I L BNN "Manufacturer_Name"
+F7 "SMA6T68AY" 400 -350 50 H I L BNN "Manufacturer_Part_Number"
+F8 "511-SMA6T68AY" 400 -450 50 H I L BNN "Mouser Part Number"
+F9 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/SMA6T68AY?qs=mxm%2FV7p14IMJ951bsWTQng%3D%3D" 400 -550 50 H I L BNN "Mouser Price/Stock"
+F10 "SMA6T68AY" 400 -650 50 H I L BNN "Arrow Part Number"
+F11 "https://www.arrow.com/en/products/sma6t68ay/stmicroelectronics?region=nac" 400 -750 50 H I L BNN "Arrow Price/Stock"
+DRAW
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 600 0 200 L 50 50 0 0 P
+P 4 0 1 6 200 0 400 100 400 -100 200 0 N
+P 2 0 1 6 200 -80 240 -100 N
+P 2 0 1 6 200 -80 200 80 N
+P 2 0 1 6 160 100 200 80 N
+ENDDRAW
+ENDDEF
+#
+#End Library

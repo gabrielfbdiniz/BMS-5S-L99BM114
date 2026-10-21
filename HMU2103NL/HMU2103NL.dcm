@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP HMU2103NL
+D 150H Pulse Transformer Surface Mount  0.8 Ohms  - 40 C to  + 125 C  1 Channel
+K
+F https://productfinder.pulseelectronics.com/api/open/part-attachments/datasheet/hmu2103nl
+$ENDCMP
+#
+#End Doc Library

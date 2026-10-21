@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP SMA6T68AY
+D ESD Suppressors / TVS Diodes 600W 4kW Transil SMA 5V to 70V Uni
+K
+F https://www.st.com/resource/en/datasheet/sma6ty.pdf
+$ENDCMP
+#
+#End Doc Library

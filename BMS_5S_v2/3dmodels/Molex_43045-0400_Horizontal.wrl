@@ -1,0 +1,325 @@
+#VRML V2.0 utf8
+# Molex Micro-Fit 3.0 Right-Angle Header (4 circuits, 2x02)
+# Calibrated for KiCad Footprint (1 unit = 2.54 mm)
+Group {
+  children [
+    # Main Housing (High-temp Black Nylon)
+    Transform {
+      translation 0.5906 -1.5591 1.3583
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.12 0.12 0.13
+              specularColor 0.22 0.22 0.22
+              ambientIntensity 0.2
+              shininess 0.35
+            }
+          }
+          geometry Box {
+            size 3.9961 3.9055 2.7165
+          }
+        }
+      ]
+    }
+    # Top Locking Latch Ramp
+    Transform {
+      translation 0.5906 -1.7717 2.8937
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.15 0.15 0.16
+              specularColor 0.25 0.25 0.25
+              shininess 0.4
+            }
+          }
+          geometry Box {
+            size 1.7717 1.6535 0.3543
+          }
+        }
+      ]
+    }
+    # Mating Face Cavity Recesses
+    Transform {
+      translation 0.5906 -3.4724 1.3583
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.05 0.05 0.05
+              shininess 0.1
+            }
+          }
+          geometry Box {
+            size 2.5197 0.0984 2.1260
+          }
+        }
+      ]
+    }
+    # Side metal nail
+    Transform {
+      translation -1.5650 -0.9843 0.9843
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.3150 1.2598 1.9685
+          }
+        }
+      ]
+    }
+    # Side metal nail
+    Transform {
+      translation 2.7461 -0.9843 0.9843
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.3150 1.2598 1.9685
+          }
+        }
+      ]
+    }
+    # PCB snap-in peg at (1.5, -7.32)
+    Transform {
+      translation 0.5906 -1.7008 -0.6299
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.15 0.15 0.16
+              specularColor 0.2 0.2 0.2
+            }
+          }
+          geometry Cylinder {
+            radius 0.5709
+            height 1.2598
+          }
+        }
+      ]
+    }
+    # --- Pin Row 1 at (0.0, -3.0) ---
+    Transform {
+      translation 0.0000 0.0000 -0.4724
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 0.2520 1.5748
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.0000 -1.2598 0.8268
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 2.5197 0.2520
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.0000 -0.1575 0.5512
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.82 0.82 0.85
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.2520 0.4724 0.7087
+          }
+        }
+      ]
+    }
+
+    # --- Pin Row 2 at (0.0, 0.0) ---
+    Transform {
+      translation 0.0000 1.1811 -0.4724
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 0.2520 1.5748
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.0000 -0.7874 2.0079
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 3.4646 0.2520
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.0000 0.7087 1.4961
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.82 0.82 0.85
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.2520 1.0236 1.1024
+          }
+        }
+      ]
+    }
+    # --- Pin Row 1 at (3.0, -3.0) ---
+    Transform {
+      translation 1.1811 0.0000 -0.4724
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 0.2520 1.5748
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1.1811 -1.2598 0.8268
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 2.5197 0.2520
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1.1811 -0.1575 0.5512
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.82 0.82 0.85
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.2520 0.4724 0.7087
+          }
+        }
+      ]
+    }
+
+    # --- Pin Row 2 at (3.0, 0.0) ---
+    Transform {
+      translation 1.1811 1.1811 -0.4724
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 0.2520 1.5748
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1.1811 -0.7874 2.0079
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.85 0.85 0.88
+              specularColor 0.95 0.95 1.0
+              shininess 0.85
+            }
+          }
+          geometry Box {
+            size 0.2520 3.4646 0.2520
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 1.1811 0.7087 1.4961
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              diffuseColor 0.82 0.82 0.85
+              specularColor 0.9 0.9 0.95
+              shininess 0.8
+            }
+          }
+          geometry Box {
+            size 0.2520 1.0236 1.1024
+          }
+        }
+      ]
+    }
+  ]
+}

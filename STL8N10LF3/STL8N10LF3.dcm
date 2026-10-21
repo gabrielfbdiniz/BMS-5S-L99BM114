@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP STL8N10LF3
+D Automotive-grade N-channel 100 V, 25 m typ., 7.8 A STripFET F3 Power MOSFET in a PowerFLAT 5x6 package
+K
+F https://www.st.com/resource/en/datasheet/stl8n10lf3.pdf
+$ENDCMP
+#
+#End Doc Library
