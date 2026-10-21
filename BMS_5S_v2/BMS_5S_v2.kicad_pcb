@@ -3035,16 +3035,10 @@
 			(uuid "2da023a2-0671-49f3-a190-97e3355363ff")
 		)
 		(embedded_fonts no)
-				(model "${KIPRJMOD}/3dmodels/HMU2103NL.stp"
-			(offset
-				(xyz 0 0 1.25)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz -90 0 0)
-			)
+																								(model "${KIPRJMOD}/3dmodels/HMU2103NL.stp"
+			(offset (xyz 0 0 1.25))
+			(scale (xyz 1 1 1))
+			(rotate (xyz -90 0 0))
 		)
 	)
 	(footprint "MountingHole:MountingHole_3.2mm_M3_DIN965"
@@ -5140,16 +5134,10 @@
 			(uuid "e20f5c55-205a-4162-a470-0361e70f75c2")
 		)
 		(embedded_fonts no)
-																(model "${KIPRJMOD}/3dmodels/430451600.stp"
-			(offset
-				(xyz 10.5 3.62 3.65)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
+																																																																																		(model "${KIPRJMOD}/3dmodels/430451600.stp"
+			(offset (xyz 10.51 3.95 3.65))
+			(scale (xyz 1 1 1))
+			(rotate (xyz 90 180 0))
 		)
 	)
 	(footprint "DIOM5126X265N:DIOM5126X265N"
@@ -7078,16 +7066,10 @@
 			(uuid "df089abb-f142-4aea-a76e-a601ca86b2ee")
 		)
 		(embedded_fonts no)
-				(model "${KIPRJMOD}/3dmodels/Molex_43045-0400.step"
-			(offset
-				(xyz -2.075 -0.255 5.81)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
+																																																																								(model "${KIPRJMOD}/3dmodels/Molex_43045-0400.step"
+			(offset (xyz 5.075 6.10 0.695))
+			(scale (xyz 1 1 1))
+			(rotate (xyz 90 180 0))
 		)
 	)
 	(footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
@@ -12623,16 +12605,10 @@
 			(uuid "16819204-6fb7-4a20-9eb2-06c1437531d6")
 		)
 		(embedded_fonts no)
-				(model "${KIPRJMOD}/3dmodels/Molex_43045-0400.step"
-			(offset
-				(xyz -2.075 -0.255 5.81)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
+																																																																		(model "${KIPRJMOD}/3dmodels/Molex_43045-0400.step"
+			(offset (xyz 5.075 6.10 0.695))
+			(scale (xyz 1 1 1))
+			(rotate (xyz 90 180 0))
 		)
 	)
 	(footprint "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
@@ -13167,16 +13143,10 @@
 			(uuid "699ddf33-018d-4c0e-b369-77ca74d95f26")
 		)
 		(embedded_fonts no)
-				(model "${KIPRJMOD}/3dmodels/HMU2103NL.stp"
-			(offset
-				(xyz 0 0 1.25)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz -90 0 0)
-			)
+																								(model "${KIPRJMOD}/3dmodels/HMU2103NL.stp"
+			(offset (xyz 0 0 1.25))
+			(scale (xyz 1 1 1))
+			(rotate (xyz -90 0 0))
 		)
 	)
 	(footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
@@ -14650,7 +14620,7 @@
 		(descr "Resistor SMD 2512 (6332 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor handsolder")
 		(property "Reference" "R3"
-			(at -5.26 -0.0275 90)
+			(at -4.86 -0.0275 180)
 			(layer "F.SilkS")
 			(uuid "57f163bb-1d69-407e-ac22-f032721dffdb")
 			(effects
