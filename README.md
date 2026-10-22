@@ -42,7 +42,7 @@ flowchart LR
         IC1 <-->|SPI Isolado OUT| T2["Transformador T2 (HMU2103NL)"]
     end
 
-    subgraph Isolation_Barrier["Barreira Galvânica (10 mm)"]
+    subgraph Isolation_Barrier["Barreira Galvânica (FSAE EV / IEC 60664)"]
         J4["Daisy Chain IN (J4)"] <--> T1
         T2 <--> J5["Daisy Chain OUT (J5)"]
     end
@@ -58,31 +58,55 @@ flowchart LR
 | **Faixa de Tensão por Célula** | $0.5\text{ V}$ a $4.5\text{ V}$ (ADC de 16 bits, erro $\le \pm 1.5\text{ mV}$) | AEC-Q100 Grau 1 |
 | **Balanceamento** | Passivo individual, $I_{bal} \approx 105\text{ mA}$ ($R_{bal} = 39\,\Omega$ / $0.75\text{ W}$) | Dissipação no Bottom Layer |
 | **Monitoramento Térmico** | 7 canais independentes para NTCs $10\text{ k}\Omega$ | FSAE EV4.4 (1 sensor / 2 células) |
-| **Isolação Galvânica** | **10.00 mm de Clearance e Creepage contínuos** | FSAE EV4.5 ($> 4.0\text{ mm}$ exigido) |
+| **Isolação Galvânica** | **$\ge 6.50\text{ mm}$ de isolação de cobre ($\ge 8.0\text{ mm}$ creepage entre pads)** | FSAE EV4.5 ($> 4.0\text{ mm}$ exigido pela IEC 60664-1 para 600V) |
 | **Tensão de Isolamento** | $> 2500\text{ V RMS}$ (Pulse HMU2103NL AEC-Q200) | Isolamento Reforçado |
 | **Dimensões Mecânicas** | $50.00\text{ mm} \times 95.00\text{ mm}$ | Placa 4 camadas, 1.6 mm |
-| **Fixação Mecânica** | 4 furos M3 NPTH nos cantos (sem anel de cobre) | Isolamento com chassi do carro |
+| **Fixação Mecânica** | 4 furos M3 NPTH nos cantos com Keepout de $\ge 7.5\text{ mm}$ | Proibição de cobre para isolamento total com o chassi |
 
 ---
 
 ## 3. Pinout & Conexões
 
 ### Conector de Bateria e Temperatura (`J3` — Molex Micro-Fit 3.0 16 pinos)
-*Conector principal de interface com o rack de células.*
+*Conector principal de interface com o rack de células e chicote do acumulador.*
+
+> [!WARNING]
+> **Atenção Máxima na Confecção do Chicote:**  
+> A numeração dos pinos segue o padrão oficial da Molex (fila 1: pinos 1 a 8; fila 2: pinos 9 a 16). O **Pino 1 é o potencial mais alto (+21V / BATT 14)** e o **Pino 6 é o potencial de terra do segmento (0V / GND_ESD)**. A inversão na montagem do chicote queima o diodo de proteção TVS $D_1$ por curto direto do acumulador!
 
 ```text
-┌────────────────────────────────────────────────────────┐
-│  J3 - CELL SENSING & NTC CONNECTOR PINOUT              │
-│  [Pin 01]  C0 (BATT -)              [Pin 09]  NTC7 +   │
-│  [Pin 02]  C1                       [Pin 10]  NTC6 +   │
-│  [Pin 03]  C2                       [Pin 11]  NTC1 +   │
-│  [Pin 04]  C3                       [Pin 12]  NTC2 +   │
-│  [Pin 05]  C4                       [Pin 13]  NTC3 +   │
-│  [Pin 06]  C5 (BATT +)              [Pin 14]  NTC4 +   │
-│  [Pin 07]  ISENSE P                 [Pin 15]  NTC5 +   │
-│  [Pin 08]  ISENSE M                 [Pin 16]  AGND     │
-└────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│  J3 - CELL SENSING, SHUNT & NTC CONNECTOR PINOUT (MOLEX 43045-1600)    │
+│                                                                        │
+│  [Pin 01]  BATT 14 (Pack + / Célula 5 / +21V)  [Pin 09]  NTC7 +        │
+│  [Pin 02]  BATT 13 (Célula 4 / +16.8V)         [Pin 10]  NTC6 +        │
+│  [Pin 03]  BATT 12 (Célula 3 / +12.6V)         [Pin 11]  NTC1 +        │
+│  [Pin 04]  BATT 2  (Célula 2 / +8.4V)          [Pin 12]  NTC2 +        │
+│  [Pin 05]  BATT 1  (Célula 1 / +4.2V)          [Pin 13]  NTC3 +        │
+│  [Pin 06]  GND_ESD (Pack - / 0V Referencial)   [Pin 14]  NTC4 +        │
+│  [Pin 07]  ISENSE M (Shunt de Corrente -)      [Pin 15]  NTC5 +        │
+│  [Pin 08]  ISENSE P (Shunt de Corrente +)      [Pin 16]  AGND (Ref. NTC)│
+└────────────────────────────────────────────────────────────────────────┘
 ```
+
+| Pino J3 | Identificador | Função no Circuito | Nível de Tensão Típico |
+| :---: | :--- | :--- | :---: |
+| **01** | `BATT 14` | Topo da Célula 5 / Alimentação Positiva `VBAT` do Módulo | $+15.0\text{ V} \dots +21.0\text{ V}$ |
+| **02** | `BATT 13` | Medição & Balanceamento — Topo da Célula 4 | $+12.0\text{ V} \dots +16.8\text{ V}$ |
+| **03** | `BATT 12` | Medição & Balanceamento — Topo da Célula 3 | $+9.0\text{ V} \dots +12.6\text{ V}$ |
+| **04** | `BATT 2` | Medição & Balanceamento — Topo da Célula 2 | $+6.0\text{ V} \dots +8.4\text{ V}$ |
+| **05** | `BATT 1` | Medição & Balanceamento — Topo da Célula 1 | $+3.0\text{ V} \dots +4.2\text{ V}$ |
+| **06** | `GND_ESD` | Base da Célula 1 / Polo Negativo do Segmento Local | $0.0\text{ V}$ (Referência do Módulo) |
+| **07** | `ISENSEM_conn` | Entrada Negativa do Shunt de Corrente (via filtro RC) | $\approx 0\text{ V}$ (Diferencial) |
+| **08** | `ISENSEP_conn` | Entrada Positiva do Shunt de Corrente (via filtro RC) | $\approx 0\text{ V}$ (Diferencial) |
+| **09** | `NTC7+` | Sensor de Temperatura 7 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **10** | `NTC6+` | Sensor de Temperatura 6 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **11** | `NTC1+` | Sensor de Temperatura 1 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **12** | `NTC2+` | Sensor de Temperatura 2 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **13** | `NTC3+` | Sensor de Temperatura 3 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **14** | `NTC4+` | Sensor de Temperatura 4 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **15** | `NTC5+` | Sensor de Temperatura 5 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
+| **16** | `AGND` | Retorno de Terra Analógico para os NTCs e Proteção de Chassi | $0.0\text{ V}$ analógico |
 
 ### Portas de Comunicação Isolada (`J4` e `J5` — Molex Micro-Fit 3.0 4 pinos)
 - **`J4` (Daisy Chain IN):** Entrada diferencial do sinal da ECU mestre ou do escravo anterior.
@@ -93,10 +117,11 @@ flowchart LR
 ## 4. Elementos de Serigrafia (Paddock-Proofing)
 
 A placa inclui sinalizações para evitar erros de conexão na montagem e no box:
-- **Barreira de 10 mm:** Linha divisória e texto `⚡ 10mm GALVANIC ISOLATION BARRIER ⚡` separando o domínio de alta tensão (`HV ACCUMULATOR DOMAIN`) do domínio de baixa tensão (`ISOLATED LV DOMAIN`).
-- **Mapeamento no Silkscreen:** Legenda dos pinos de células e NTCs diretamente no verso do conector `J3`.
+- **Barreira de Isolação Galvânica:** Linha divisória e texto `⚡ GALVANIC ISOLATION BARRIER (IEC 60664 / FSAE EV) ⚡` separando o domínio de alta tensão (`HV ACCUMULATOR DOMAIN`) do domínio de baixa tensão (`ISOLATED LV DOMAIN`).
+- **Mapeamento no Silkscreen:** Legenda dos pinos de células e NTCs gravada diretamente no verso do conector `J3` (`B.SilkS`).
 - **Rastreabilidade e QA:** Caixa de anotação de identificação de módulo (`MODULE ID: ___`), data e aprovação em controle de qualidade.
-- **LED de Status:** Legenda `STATUS` junto ao LED `D4` para depuração rápida.
+- **LED de Status:** LED indicador `D4` com serigrafia `STATUS` para depuração rápida de operação do ASIC.
+- **Zonas de Restrição Mecânica:** Keepouts circulares de $7.5\text{ mm}$ ao redor dos furos M3 com remoção total de planos de cobre, prevenindo contato galvânico de fixadores com o terra do acumulador.
 
 ---
 

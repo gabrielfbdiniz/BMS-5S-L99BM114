@@ -1129,7 +1129,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Transistor_FET:Q_NMOS_DGS"
+		(symbol "Transistor_FET:Q_NMOS_GDS"
 			(pin_names
 				(offset 0)
 				(hide yes)
@@ -1150,7 +1150,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "Q_NMOS_DGS"
+			(property "Value" "Q_NMOS_GDS"
 				(at 5.08 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1183,7 +1183,7 @@
 					)
 				)
 			)
-			(property "Description" "N-MOSFET transistor, drain/gate/source"
+			(property "Description" "N-MOSFET transistor, gate/drain/source"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1205,7 +1205,7 @@
 					)
 				)
 			)
-			(symbol "Q_NMOS_DGS_0_1"
+			(symbol "Q_NMOS_GDS_0_1"
 				(polyline
 					(pts
 						(xy 0.254 1.905) (xy 0.254 -1.905)
@@ -1372,11 +1372,11 @@
 					)
 				)
 			)
-			(symbol "Q_NMOS_DGS_1_1"
-				(pin passive line
-					(at 2.54 5.08 270)
+			(symbol "Q_NMOS_GDS_1_1"
+				(pin input line
+					(at -5.08 0 0)
 					(length 2.54)
-					(name "D"
+					(name "G"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1391,10 +1391,10 @@
 						)
 					)
 				)
-				(pin input line
-					(at -5.08 0 0)
+				(pin passive line
+					(at 2.54 5.08 270)
 					(length 2.54)
-					(name "G"
+					(name "D"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1958,7 +1958,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 105.41) (xy 214.63 105.41)
+			(xy 205.74 110.49) (xy 214.63 110.49)
 		)
 		(stroke
 			(width 0)
@@ -2328,7 +2328,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 105.41) (xy 191.77 96.52)
+			(xy 191.77 110.49) (xy 191.77 96.52)
 		)
 		(stroke
 			(width 0)
@@ -2388,7 +2388,7 @@
 	)
 	(wire
 		(pts
-			(xy 200.66 105.41) (xy 191.77 105.41)
+			(xy 200.66 110.49) (xy 191.77 110.49)
 		)
 		(stroke
 			(width 0)
@@ -2718,7 +2718,7 @@
 	)
 	(wire
 		(pts
-			(xy 214.63 105.41) (xy 214.63 96.52)
+			(xy 214.63 110.49) (xy 214.63 96.52)
 		)
 		(stroke
 			(width 0)
@@ -4632,90 +4632,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Transistor_FET:Q_NMOS_DGS")
-		(at 203.2 93.98 90)
-		(mirror x)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "7892ec2b-8b35-45d1-b382-7343d9f2e5f7")
-		(property "Reference" "Q2"
-			(at 203.2 100.33 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "STD105N10F7AG"
-			(at 203.2 102.87 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
-			(at 200.66 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 203.2 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "N-MOSFET transistor, drain/gate/source"
-			(at 203.2 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "bb1d749a-9f8d-46e3-82fe-cae6302c7fed")
-		)
-		(pin "3"
-			(uuid "7981d4e5-eb2b-461a-be51-12119e9b9f2c")
-		)
-		(pin "1"
-			(uuid "e80f2f50-ac86-4295-8cf8-df5094784cec")
-		)
-		(instances
-			(project "BMS_5S_v2"
-				(path "/068efd84-10fe-4814-92cc-0cd9d996861a/4eab94bb-4cb7-463b-8254-02fb5fd547db"
-					(reference "Q2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 181.61 96.52 0)
 		(unit 1)
@@ -5030,6 +4946,89 @@
 		)
 	)
 	(symbol
+		(lib_id "Transistor_FET:Q_NMOS_GDS")
+		(at 203.2 93.98 90)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "99f2d981-09ed-4c30-95b5-f3954b3b1287")
+		(property "Reference" "Q2"
+			(at 203.2 100.33 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Q_NMOS_GDS"
+			(at 203.2 102.87 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
+			(at 200.66 99.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 203.2 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "N-MOSFET transistor, gate/drain/source"
+			(at 203.2 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a81f30fe-3d1d-4141-9b22-2625947a85b6")
+		)
+		(pin "2"
+			(uuid "b713bab7-0774-49e9-9ac7-8254fbb103b7")
+		)
+		(pin "3"
+			(uuid "f86e34d4-dce7-4f4d-8f4b-e3cdae29ff7e")
+		)
+		(instances
+			(project "BMS_5S_v2"
+				(path "/068efd84-10fe-4814-92cc-0cd9d996861a/4eab94bb-4cb7-463b-8254-02fb5fd547db"
+					(reference "Q2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 66.04 53.34 0)
 		(mirror y)
@@ -5191,7 +5190,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small")
-		(at 203.2 105.41 90)
+		(at 203.2 110.49 90)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -5202,7 +5201,7 @@
 		(dnp no)
 		(uuid "9e4b0108-a132-49f5-88f1-55e4e189e386")
 		(property "Reference" "R3"
-			(at 203.2 103.632 90)
+			(at 203.2 108.712 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5212,7 +5211,7 @@
 			)
 		)
 		(property "Value" "47"
-			(at 203.2 107.442 90)
+			(at 203.2 112.522 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5222,7 +5221,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
-			(at 203.2 105.41 0)
+			(at 203.2 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5233,7 +5232,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 203.2 105.41 0)
+			(at 203.2 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5244,7 +5243,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 203.2 105.41 0)
+			(at 203.2 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
