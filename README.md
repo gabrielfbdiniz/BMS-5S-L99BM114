@@ -1,4 +1,4 @@
-# 🏎️ BMS-5S-L99BM114 — Formula ITA (Formula SAE EV)
+# BMS-5S-L9963E-TR — Formula ITA (Formula SAE EV)
 
 ![KiCad Version](https://img.shields.io/badge/KiCad-10.0-blue.svg)
 ![FSAE Rules](https://img.shields.io/badge/FSAE%20EV-Rulebook%20Compliant-brightgreen.svg)
@@ -22,7 +22,7 @@ Módulo escravo descentralizado de monitoramento, sensoriamento e balanceamento 
 
 ---
 
-## 📐 1. Visão Geral da Arquitetura
+## 1. Visão Geral da Arquitetura
 
 O sistema adota arquitetura distribuída/modular de BMS para baterias de tração (HV). Os módulos escravos operam conectados ao segmento local de células e comunicam-se com a ECU Central através de um barramento serial em topologia **Daisy-Chain isolada por transformadores de pulso**.
 
@@ -50,7 +50,7 @@ flowchart LR
 
 ---
 
-## ⚙️ 2. Especificações Técnicas
+## 2. Especificações Técnicas
 
 | Parâmetro | Especificação de Projeto | Norma / Referência |
 | :--- | :--- | :--- |
@@ -65,7 +65,7 @@ flowchart LR
 
 ---
 
-## 🔌 3. Pinout & Conexões
+## 3. Pinout & Conexões
 
 ### Conector de Bateria e Temperatura (`J3` — Molex Micro-Fit 3.0 16 pinos)
 *Conector principal de interface com o rack de células.*
@@ -90,7 +90,7 @@ flowchart LR
 
 ---
 
-## 🏷️ 4. Elementos de Serigrafia (Paddock-Proofing)
+## 4. Elementos de Serigrafia (Paddock-Proofing)
 
 A placa inclui sinalizações para evitar erros de conexão na montagem e no box:
 - **Barreira de 10 mm:** Linha divisória e texto `⚡ 10mm GALVANIC ISOLATION BARRIER ⚡` separando o domínio de alta tensão (`HV ACCUMULATOR DOMAIN`) do domínio de baixa tensão (`ISOLATED LV DOMAIN`).
@@ -100,7 +100,7 @@ A placa inclui sinalizações para evitar erros de conexão na montagem e no box
 
 ---
 
-## 📦 5. Arquivos de Fabricação
+## 5. Arquivos de Fabricação
 
 Os arquivos prontos para manufatura encontram-se no diretório `BMS_5S_v2/fabrication/`:
 - **`BMS_5S_L99BM114_Gerber_Drill.zip`:** Pacote consolidado contendo os Gerbers (RS-274X), furação Excellon (`PTH` e `NPTH`) e mapa de furos em PDF para upload direto na JLCPCB ou PCBWay.
@@ -111,7 +111,7 @@ Os arquivos prontos para manufatura encontram-se no diretório `BMS_5S_v2/fabric
 
 ---
 
-## 🛠️ 6. Como Abrir e Validar o Projeto
+## 6. Como Abrir e Validar o Projeto
 
 ### Pré-requisitos
 - KiCad EDA versão 10.0 ou superior.
@@ -130,7 +130,7 @@ kicad-cli pcb export drill -o BMS_5S_v2/fabrication/gerber/ --format excellon --
 
 ---
 
-## 📜 7. Licença & Créditos
+## 7. Licença & Créditos
 
 Projeto desenvolvido por **Gabriel Diniz (ELE28)** para a equipe **Formula ITA**.
 Distribuído sob a licença **CERN-OHL-S v2** (CERN Open Hardware Licence Strongly Reciprocal). Consulte o arquivo `LICENSE` para mais detalhes.
