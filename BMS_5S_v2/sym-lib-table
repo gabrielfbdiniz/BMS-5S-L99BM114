@@ -1,7 +1,7 @@
 (sym_lib_table
   (version 7)
-  (lib (name "L99BM114-TR")(type "KiCad")(uri "${KIPRJMOD}/../L99BM114/L99BM114-TR.kicad_sym")(options "")(descr ""))
-  (lib (name "SMA6T68AY")(type "KiCad")(uri "${KIPRJMOD}/../SMA6T68AY/SMA6T68AY.kicad_sym")(options "")(descr ""))
-  (lib (name "STL8N10LF3")(type "KiCad")(uri "${KIPRJMOD}/../STL8N10LF3/STL8N10LF3.kicad_sym")(options "")(descr ""))
-  (lib (name "HMU2103NL")(type "KiCad")(uri "${KIPRJMOD}/../HMU2103NL/HMU2103NL.kicad_sym")(options "")(descr ""))
+  (lib (name "L99BM114-TR")(type "KiCad")(uri "${KIPRJMOD}/../hardware_libraries/L99BM114/L99BM114-TR.kicad_sym")(options "")(descr ""))
+  (lib (name "SMA6T68AY")(type "KiCad")(uri "${KIPRJMOD}/../hardware_libraries/SMA6T68AY/SMA6T68AY.kicad_sym")(options "")(descr ""))
+  (lib (name "STL8N10LF3")(type "KiCad")(uri "${KIPRJMOD}/../hardware_libraries/STL8N10LF3/STL8N10LF3.kicad_sym")(options "")(descr ""))
+  (lib (name "HMU2103NL")(type "KiCad")(uri "${KIPRJMOD}/../hardware_libraries/HMU2103NL/HMU2103NL.kicad_sym")(options "")(descr ""))
 )
