@@ -1,4 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "FormulaITA")(type "KiCad")(uri "${KIPRJMOD}/FormulaITA.pretty")(options "")(descr "Furos da placa de celulas"))
-)
