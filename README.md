@@ -1,161 +1,173 @@
-# BMS-5S-L9963E-TR — Formula ITA (Formula SAE EV)
+# BMS 5S (L99BM114) & Placas de Sensoriamento do Chicote (5s18p) — Formula ITA
+### Módulo Escravo Distribuído de Sensoriamento de Células, Balanceamento e Termistores NTC (Formula SAE EV)
 
-![KiCad Version](https://img.shields.io/badge/KiCad-10.0-blue.svg)
-![FSAE Rules](https://img.shields.io/badge/FSAE%20EV-Rulebook%20Compliant-brightgreen.svg)
-![DRC Status](https://img.shields.io/badge/DRC-0%20Disconnections%20%7C%20Clean%20Pads-success.svg)
-![Layer Count](https://img.shields.io/badge/Stackup-4--Layer%20JLC04161H-orange.svg)
-![License](https://img.shields.io/badge/License-CERN--OHL--S%20v2-lightgrey.svg)
-
-Módulo escravo descentralizado de monitoramento, sensoriamento e balanceamento passivo de acumulador elétrico de alta tensão, projetado para o protótipo de Fórmula SAE Elétrico da **Formula ITA**. O subsistema gerencia blocos de até 5 células Li-Ion/LiFePO4 em série, baseado no ASIC automotivo dedicado **STMicroelectronics L99BM114**.
+Repositório oficial e unificado (**Monorepo**) de **Hardware**, **Placas de Sensoriamento do Chicote** e **Documentação Técnica** dos módulos escravos (Slaves) do Battery Management System (BMS) da equipe **Formula ITA** (Temporada 2025-2026).
 
 ---
 
-## 📸 Renderizações 3D do Projeto
+## Renderizações 3D dos Hardwares
 
-| Vista Superior (Top View) | Vista Inferior (Bottom View) |
+### Módulo BMS 5S Slave (L99BM114)
+
+Placa de 4 camadas dedicada ao monitoramento de cada bloco 5S, dotada de barreira galvânica de isolação automotiva, balanceamento passivo e filtros diferenciais de alta precisão.
+
+<div align="center">
+  <img src="renders/slave_render_iso_top.png" alt="BMS 5S Slave - Perspectiva Superior" width="850px" />
+  <p><em>Vista Isométrica Superior — Destaque para o ASIC ST L99BM114, transformadores de pulso Pulse HMU2103NL (Isolated SPI Daisy-Chain), filtros de entrada e conectores Molex Micro-Fit 3.0.</em></p>
+</div>
+
+<br>
+
+| Perspectiva Superior (Iso Top) | Perspectiva Inferior (Iso Bottom) |
 | :---: | :---: |
-| ![Top View](renders/render_top.png) | ![Bottom View](renders/render_bottom.png) |
+| ![Top Iso](renders/slave_render_iso_top.png) | ![Bottom Iso](renders/slave_render_iso_bottom.png) |
+| **Vista Ortográfica Superior (Top View)** | **Vista Ortográfica Inferior (Bottom View)** |
+| ![Top Ortho](renders/slave_render_top.png) | ![Bottom Ortho](renders/slave_render_bottom.png) |
 
-| Perspectiva Superior Isométrica | Perspectiva Inferior Isométrica |
+---
+
+### Placas de Sensoriamento e Chicote do Módulo (5s18p — Rev C)
+
+Placas de barramento posicionadas diretamente nos terminais das células 21700 de cada segmento, integrando 32 termistores NTC 10k, multiplexadores analógicos de 5V e fusíveis de sense ultrarrápidos contra curto-circuito.
+
+| Placa NEG (Ilhas P1, P3, P5) — Face Superior | Placa NEG — Plano AGND (Bottom) |
 | :---: | :---: |
-| ![Top Isometric](renders/render_iso_top.png) | ![Bottom Isometric](renders/render_iso_bottom.png) |
+| ![Chicote NEG Top](renders/chicote_neg_render_top.png) | ![Chicote NEG Bottom](renders/chicote_neg_render_bottom.png) |
+| **Placa POS (Ilhas P2, P4, P6) — Face Superior** | **Placa POS — Plano AGND (Bottom)** |
+| ![Chicote POS Top](renders/chicote_pos_render_top.png) | ![Chicote POS Bottom](renders/chicote_pos_render_bottom.png) |
 
 ---
 
-## 1. Visão Geral da Arquitetura
+## Destaques de Arquitetura e Engenharia
 
-O sistema adota arquitetura distribuída/modular de BMS para baterias de tração (HV). Os módulos escravos operam conectados ao segmento local de células e comunicam-se com a ECU Central através de um barramento serial em topologia **Daisy-Chain isolada por transformadores de pulso**.
-
-```mermaid
-flowchart LR
-    subgraph Battery_Segment["Segmento de Células (5S)"]
-        CELLS["5x Células Li-Ion"] -->|Sensoriamento & Balanceamento| J3["Molex Micro-Fit 16-pin (J3)"]
-        NTCS["7x Termistores NTC"] -->|ADC Ratiométrico| J3
-    end
-
-    subgraph BMS_Board["Módulo BMS 5S (Slave)"]
-        J3 --> FILTER["Filtros RC Diferenciais + TVS SMA6T68AY"]
-        FILTER --> IC1["L99BM114 ASIC (TQFP-64)"]
-        IC1 -->|Despejo Térmico| BAL["6x Resistores 39Ω 2010 (Bottom)"]
-        
-        T1["Transformador T1 (HMU2103NL)"] <-->|SPI Isolado IN| IC1
-        IC1 <-->|SPI Isolado OUT| T2["Transformador T2 (HMU2103NL)"]
-    end
-
-    subgraph Isolation_Barrier["Barreira Galvânica (FSAE EV / IEC 60664)"]
-        J4["Daisy Chain IN (J4)"] <--> T1
-        T2 <--> J5["Daisy Chain OUT (J5)"]
-    end
-```
+1. **Topologia do Acumulador:**
+   * O acumulador total de tração é composto por **8 módulos 5s18p** em série (**40S18P = 720 células** formato 21700, 168V nominais).
+   * Cada módulo possui:
+     * **1x Placa BMS 5S Slave**
+     * **1x Placa Chicote NEG** (conector Molex 2x05 vertical com trava)
+     * **1x Placa Chicote POS** (conector Molex 2x06 vertical com trava anti-inversão)
+     * **1x Chicote em Y** conectando as duas placas ao conector **J3 (2x08)** do Slave.
+2. **ASIC Automotivo de Alta Resolução (ST L99BM114):**
+   * Medição síncrona de tensão de células com ADC de 16 bits ($\pm 1{,}5\text{ mV}$).
+   * Balanceamento passivo programável por PWM individual com resistores de potência no layer inferior.
+3. **Sensoriamento Térmico Abrangente (FSAE EV4.4):**
+   * 32 termistores NTC 10k 1% (16 por placa) mapeados por módulo, garantindo amostragem térmica direta de mais de 40% das células do pack.
+   * Multiplexação local por CIs `74HC4051D` alimentados a 5.0V pelo LDO ultrabaixo consumo `TI TPS70950DBVR` ($I_Q \approx 1\,\mu\text{A}$, eliminando descarga parasita do pack em repouso).
+4. **Proteção Intrínseca contra Falha:**
+   * Linhas de medição de tensão protegidas por fusíveis cerâmicos ultrarrápidos `Littelfuse 0466.125NRHF` (125 mA / 125 V, 50 A capacidade de interrupção).
+   * Diodos TVS `SMA6T68AY` e filtros RC passa-baixas diferenciais em todas as entradas de sensoriamento.
+5. **Comunicação Segura em Daisy-Chain (FSAE EV4.8 / IEC 60664):**
+   * Barramento Iso-SPI diferencial serial acoplado via transformadores `Pulse HMU2103NL` ($\ge 2500\text{ V}_{RMS}$, creepage $\ge 4{,}0\text{ mm}$ e folga no layout $\ge 6{,}5\text{ mm}$).
 
 ---
 
-## 2. Especificações Técnicas
+## Mapeamento de Pinos & Interconexão
 
-| Parâmetro | Especificação de Projeto | Norma / Referência |
-| :--- | :--- | :--- |
-| **Topologia de Baterias** | 2S a 5S Li-Ion, LiPo ou LiFePO4 | ST L99BM114 Specs |
-| **Faixa de Tensão por Célula** | $0.5\text{ V}$ a $4.5\text{ V}$ (ADC de 16 bits, erro $\le \pm 1.5\text{ mV}$) | AEC-Q100 Grau 1 |
-| **Balanceamento** | Passivo individual, $I_{bal} \approx 105\text{ mA}$ ($R_{bal} = 39\,\Omega$ / $0.75\text{ W}$) | Dissipação no Bottom Layer |
-| **Monitoramento Térmico** | 7 canais independentes para NTCs $10\text{ k}\Omega$ | FSAE EV4.4 (1 sensor / 2 células) |
-| **Isolação Galvânica** | **$\ge 6.50\text{ mm}$ de isolação de cobre ($\ge 8.0\text{ mm}$ creepage entre pads)** | FSAE EV4.5 ($> 4.0\text{ mm}$ exigido pela IEC 60664-1 para 600V) |
-| **Tensão de Isolamento** | $> 2500\text{ V RMS}$ (Pulse HMU2103NL AEC-Q200) | Isolamento Reforçado |
-| **Dimensões Mecânicas** | $50.00\text{ mm} \times 95.00\text{ mm}$ | Placa 4 camadas, 1.6 mm |
-| **Fixação Mecânica** | 4 furos M3 NPTH nos cantos com Keepout de $\ge 7.5\text{ mm}$ | Proibição de cobre para isolamento total com o chassi |
+### Pinagem do Chicote em Y: Placas NEG/POS $\to$ Conector J3 do BMS Slave
+
+| Pino J3 (BMS) | Sinal | Origem no Módulo | Função / Descrição |
+|:---:|:---:|:---:|:---|
+| **1** | `BATT14` | POS J1.11 | Tensão Célula 5 (Topo do módulo, até 21.0V) |
+| **2** | `BATT13` | NEG J1.9 | Tensão Célula 4 (Até 16.8V) |
+| **3** | `BATT12` | POS J1.9 | Tensão Célula 3 (Até 12.6V) |
+| **4** | `BATT2`  | NEG J1.8 | Tensão Célula 2 (Até 8.4V) |
+| **5** | `BATT1`  | POS J1.10| Tensão Célula 1 (Até 4.2V) |
+| **6** | `GND_ESD`| NEG J1.10| Retorno / Negativo do Módulo (0V local) |
+| **7** | *NC*     | — | Reserva / Sem conexão |
+| **8** | *NC*     | — | Reserva / Sem conexão |
+| **9** | `MUX_S2` | Y: NEG J1.4 + POS J1.4 | Bit 2 de seleção de canal dos multiplexadores |
+| **10**| `MUX_S1` | Y: NEG J1.3 + POS J1.3 | Bit 1 de seleção de canal dos multiplexadores |
+| **11**| `MUX_S0` | Y: NEG J1.2 + POS J1.2 | Bit 0 de seleção de canal dos multiplexadores |
+| **12**| `AGND`   | Y: NEG J1.5 + POS J1.5 | Referência analógica de sensoriamento NTC |
+| **13**| `NTC_CH4`| POS J1.8 | Saída multiplexada MUX B da placa POS (NTCs 9 a 16) |
+| **14**| `NTC_CH3`| POS J1.7 | Saída multiplexada MUX A da placa POS (NTCs 1 a 8) |
+| **15**| `NTC_CH2`| NEG J1.7 | Saída multiplexada MUX B da placa NEG (NTCs 9 a 16) |
+| **16**| `NTC_CH1`| NEG J1.6 | Saída multiplexada MUX A da placa NEG (NTCs 1 a 8) |
+
+> **Chaveamento Anti-Inversão:** O conector J1 da Placa NEG é Molex Micro-Fit 2x05 (`43045-1012`), enquanto o J1 da Placa POS é 2x06 (`43045-1212`). Essa diferença mecânica impede fisicamente a conexão invertida dos plugs durante a montagem no acumulador.
 
 ---
 
-## 3. Pinout & Conexões
-
-### Conector de Bateria e Temperatura (`J3` — Molex Micro-Fit 3.0 16 pinos)
-*Conector principal de interface com o rack de células e chicote do acumulador.*
-
-> [!WARNING]
-> **Atenção Máxima na Confecção do Chicote:**  
-> A numeração dos pinos segue o padrão oficial da Molex (fila 1: pinos 1 a 8; fila 2: pinos 9 a 16). O **Pino 1 é o potencial mais alto (+21V / BATT 14)** e o **Pino 6 é o potencial de terra do segmento (0V / GND_ESD)**. A inversão na montagem do chicote queima o diodo de proteção TVS $D_1$ por curto direto do acumulador!
+## Estrutura do Repositório (Monorepo)
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│  J3 - CELL SENSING, SHUNT & NTC CONNECTOR PINOUT (MOLEX 43045-1600)    │
-│                                                                        │
-│  [Pin 01]  BATT 14 (Pack + / Célula 5 / +21V)  [Pin 09]  NTC7 +        │
-│  [Pin 02]  BATT 13 (Célula 4 / +16.8V)         [Pin 10]  NTC6 +        │
-│  [Pin 03]  BATT 12 (Célula 3 / +12.6V)         [Pin 11]  NTC1 +        │
-│  [Pin 04]  BATT 2  (Célula 2 / +8.4V)          [Pin 12]  NTC2 +        │
-│  [Pin 05]  BATT 1  (Célula 1 / +4.2V)          [Pin 13]  NTC3 +        │
-│  [Pin 06]  GND_ESD (Pack - / 0V Referencial)   [Pin 14]  NTC4 +        │
-│  [Pin 07]  ISENSE M (Shunt de Corrente -)      [Pin 15]  NTC5 +        │
-│  [Pin 08]  ISENSE P (Shunt de Corrente +)      [Pin 16]  AGND (Ref. NTC)│
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-| Pino J3 | Identificador | Função no Circuito | Nível de Tensão Típico |
-| :---: | :--- | :--- | :---: |
-| **01** | `BATT 14` | Topo da Célula 5 / Alimentação Positiva `VBAT` do Módulo | $+15.0\text{ V} \dots +21.0\text{ V}$ |
-| **02** | `BATT 13` | Medição & Balanceamento — Topo da Célula 4 | $+12.0\text{ V} \dots +16.8\text{ V}$ |
-| **03** | `BATT 12` | Medição & Balanceamento — Topo da Célula 3 | $+9.0\text{ V} \dots +12.6\text{ V}$ |
-| **04** | `BATT 2` | Medição & Balanceamento — Topo da Célula 2 | $+6.0\text{ V} \dots +8.4\text{ V}$ |
-| **05** | `BATT 1` | Medição & Balanceamento — Topo da Célula 1 | $+3.0\text{ V} \dots +4.2\text{ V}$ |
-| **06** | `GND_ESD` | Base da Célula 1 / Polo Negativo do Segmento Local | $0.0\text{ V}$ (Referência do Módulo) |
-| **07** | `ISENSEM_conn` | Entrada Negativa do Shunt de Corrente (via filtro RC) | $\approx 0\text{ V}$ (Diferencial) |
-| **08** | `ISENSEP_conn` | Entrada Positiva do Shunt de Corrente (via filtro RC) | $\approx 0\text{ V}$ (Diferencial) |
-| **09** | `NTC7+` | Sensor de Temperatura 7 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **10** | `NTC6+` | Sensor de Temperatura 6 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **11** | `NTC1+` | Sensor de Temperatura 1 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **12** | `NTC2+` | Sensor de Temperatura 2 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **13** | `NTC3+` | Sensor de Temperatura 3 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **14** | `NTC4+` | Sensor de Temperatura 4 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **15** | `NTC5+` | Sensor de Temperatura 5 (NTC $10\text{ k}\Omega$ canal ratiométrico) | $0 \dots +5.0\text{ V}$ |
-| **16** | `AGND` | Retorno de Terra Analógico para os NTCs e Proteção de Chassi | $0.0\text{ V}$ analógico |
-
-### Portas de Comunicação Isolada (`J4` e `J5` — Molex Micro-Fit 3.0 4 pinos)
-- **`J4` (Daisy Chain IN):** Entrada diferencial do sinal da ECU mestre ou do escravo anterior.
-- **`J5` (Daisy Chain OUT):** Saída diferencial para encaminhamento ao próximo módulo escravo.
-
----
-
-## 4. Elementos de Serigrafia (Paddock-Proofing)
-
-A placa inclui sinalizações para evitar erros de conexão na montagem e no box:
-- **Barreira de Isolação Galvânica:** Linha divisória e texto `⚡ GALVANIC ISOLATION BARRIER (IEC 60664 / FSAE EV) ⚡` separando o domínio de alta tensão (`HV ACCUMULATOR DOMAIN`) do domínio de baixa tensão (`ISOLATED LV DOMAIN`).
-- **Mapeamento no Silkscreen:** Legenda dos pinos de células e NTCs gravada diretamente no verso do conector `J3` (`B.SilkS`).
-- **Rastreabilidade e QA:** Caixa de anotação de identificação de módulo (`MODULE ID: ___`), data e aprovação em controle de qualidade.
-- **LED de Status:** LED indicador `D4` com serigrafia `STATUS` para depuração rápida de operação do ASIC.
-- **Zonas de Restrição Mecânica:** Keepouts circulares de $7.5\text{ mm}$ ao redor dos furos M3 com remoção total de planos de cobre, prevenindo contato galvânico de fixadores com o terra do acumulador.
-
----
-
-## 5. Arquivos de Fabricação
-
-Os arquivos prontos para manufatura encontram-se no diretório `BMS_5S_v2/fabrication/`:
-- **`BMS_5S_L99BM114_Gerber_Drill.zip`:** Pacote consolidado contendo os Gerbers (RS-274X), furação Excellon (`PTH` e `NPTH`) e mapa de furos em PDF para upload direto na JLCPCB ou PCBWay.
-- **`BMS_5S_L99BM114.d356`:** Netlist IPC-D-356 para teste elétrico de agulhas móveis (*Flying Probe Test*).
-- **`cpl/BMS_5S_L99BM114_cpl.csv`:** Arquivo de centróides / Pick-and-Place para a montadora SMT.
-- **`bom/BMS_5S_L99BM114_bom.csv`:** Lista de materiais agrupada com footprints e part numbers.
-- **`BMS_5S_L99BM114_Schematic.pdf`:** Esquemático completo em PDF vetorial.
-
----
-
-## 6. Como Abrir e Validar o Projeto
-
-### Pré-requisitos
-- KiCad EDA versão 10.0 ou superior.
-
-### Verificação de Regras de Projeto (DRC)
-Abra o projeto pelo KiCad ou execute pelo terminal:
-```bash
-kicad-cli pcb drc --output drc_report.json --format json --severity-all BMS_5S_v2/BMS_5S_v2.kicad_pcb
-```
-
-### Regenerar Pacote de Fabricação
-```bash
-kicad-cli pcb export gerbers -o BMS_5S_v2/fabrication/gerber/ --no-x2 --subtract-soldermask --check-zones BMS_5S_v2/BMS_5S_v2.kicad_pcb
-kicad-cli pcb export drill -o BMS_5S_v2/fabrication/gerber/ --format excellon --excellon-units mm --excellon-separate-th BMS_5S_v2/BMS_5S_v2.kicad_pcb
+BMS 5S - STM - V2/
+├── .gitignore                         # Regras de exclusão Git (KiCad, builds, temporários)
+├── README.md                          # Visão geral, especificações e documentação rápida
+├── LICENSE                            # Licença de Hardware Aberto (CERN-OHL-S v2)
+├── CONTRIBUTING.md                     # Diretrizes de contribuição e engenharia
+│
+├── docs/                              # Documentação técnica e manuais
+│   ├── schematics/                    # Esquemáticos oficiais em PDF vetorial
+│   │   ├── BMS_5S_Slave_Schematic.pdf       # Esquemático hierárquico do BMS Slave V2 (KiCad 10)
+│   │   ├── Placa_Chicote_NEG_Schematic.pdf  # Esquemático da placa de sensoriamento NEG (5s18p)
+│   │   └── Placa_Chicote_POS_Schematic.pdf  # Esquemático da placa de sensoriamento POS (5s18p)
+│   ├── datasheets/                    # Folhas de dados de componentes críticos (L99BM114)
+│   └── MANUAL_OPERACIONAL_E_MONTAGEM_BMS.md # Manual de montagem, chicotes e testes
+│
+├── hardware/                          # Projetos de Hardware no KiCad 10
+│   ├── bms_5s_slave/                  # Projeto KiCad do Módulo BMS 5S Slave
+│   │   ├── BMS_5S_v2.kicad_pro        # Projeto mestre KiCad
+│   │   ├── BMS_5S_v2.kicad_sch        # Esquemático mestre
+│   │   ├── BMS_5S_v2.kicad_pcb        # Layout de 4 camadas (Top/In1/In2/Bot)
+│   │   ├── Cell_Sensing.kicad_sch     # Folha: Sensoriamento e balanceamento de células
+│   │   ├── Current_Sensing.kicad_sch  # Folha: Entradas de derivação Kelvin para corrente
+│   │   ├── Isolated_Communication.kicad_sch # Folha: Barreira Iso-SPI e transformadores
+│   │   ├── NTC_and_GPIO.kicad_sch     # Folha: Condicionamento de termistores e GPIOs
+│   │   ├── Power_Management.kicad_sch # Folha: Aterramento inteligente e alimentação
+│   │   ├── Support_and_Debug.kicad_sch# Folha: Pontos de teste e LEDs de status
+│   │   ├── fp-lib-table, sym-lib-table# Mapeamento local de bibliotecas
+│   │   ├── libraries/                 # Símbolos locais e footprints dos componentes dedicados
+│   │   ├── 3dmodels/                  # Modelos 3D STEP/WRL dos conectores e CIs
+│   │   └── fabrication/               # Pacote de manufatura e montagem SMT
+│   │       ├── gerbers/               # Arquivos Gerber RS-274X, Drills Excellon e ZIP final
+│   │       ├── bom/                   # Listas de materiais (BOM CSV, Mouser, Interactive BOM)
+│   │       └── cpl/                   # Arquivo de coordenadas Pick & Place (pos.csv)
+│   │
+│   └── chicote_5s18p/                 # Placas de sensoriamento do módulo 5s18p e chicote
+│       ├── CHICOTE_BMS.md             # Especificação e montagem do chicote em Y
+│       ├── PINAGEM_e_NTCs.md          # Mapa detalhado de pinagem e posições dos 32 NTCs
+│       ├── LEIA.md                    # Histórico de revisões e notas de auditoria Rev C
+│       ├── placa_neg/                 # Projeto KiCad da Placa NEG (ilhas P1, P3, P5)
+│       │   ├── Placa_NEG_5s18p.kicad_pro
+│       │   ├── Placa_NEG_5s18p.kicad_sch
+│       │   ├── Placa_NEG_5s18p.kicad_pcb
+│       │   ├── fp-lib-table
+│       │   └── FormulaITA.pretty/     # Footprints de anel de contato das células 21700
+│       └── placa_pos/                 # Projeto KiCad da Placa POS (ilhas P2, P4, P6)
+│           ├── Placa_POS_5s18p.kicad_pro
+│           ├── Placa_POS_5s18p.kicad_sch
+│           ├── Placa_POS_5s18p.kicad_pcb
+│           ├── fp-lib-table
+│           └── FormulaITA.pretty/     # Footprints de anel de contato das células 21700
+│
+└── renders/                           # Renderizações fotorrealistas em alta resolução (KiCad 10)
+    ├── slave_render_iso_top.png
+    ├── slave_render_iso_bottom.png
+    ├── slave_render_top.png
+    ├── slave_render_bottom.png
+    ├── chicote_neg_render_top.png
+    ├── chicote_neg_render_bottom.png
+    ├── chicote_pos_render_top.png
+    └── chicote_pos_render_bottom.png
 ```
 
 ---
 
-## 7. Licença & Créditos
+## Como Abrir e Visualizar os Projetos no KiCad 10
 
-Projeto desenvolvido por **Gabriel Diniz (ELE28)** para a equipe **Formula ITA**.
-Distribuído sob a licença **CERN-OHL-S v2** (CERN Open Hardware Licence Strongly Reciprocal). Consulte o arquivo `LICENSE` para mais detalhes.
+1. **BMS 5S Slave:**
+   - Abra o **KiCad 10** e aponte para:  
+     `hardware/bms_5s_slave/BMS_5S_v2.kicad_pro`.
+   - Abra o PCB Editor e pressione <kbd>Alt</kbd> + <kbd>3</kbd> para abrir o visualizador 3D com raytracing.
+2. **Placas de Sensoriamento do Chicote (5s18p):**
+   - Placa NEG: abra `hardware/chicote_5s18p/placa_neg/Placa_NEG_5s18p.kicad_pro`.
+   - Placa POS: abra `hardware/chicote_5s18p/placa_pos/Placa_POS_5s18p.kicad_pro`.
+3. **Esquemáticos Rápidos em PDF:**
+   - Consulte diretamente a pasta [`docs/schematics/`](docs/schematics/) sem necessidade de abrir a ferramenta de CAD.
+
+---
+
+<div align="center">
+  <sub>Formula ITA — Equipe de Formula SAE Elétrico do Instituto Tecnológico de Aeronáutica (ITA).</sub>
+</div>
