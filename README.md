@@ -36,9 +36,9 @@ Placa de 4 camadas dedicada ao monitoramento de cada bloco 5S, dotada de barreir
    * Balanceamento passivo programável por PWM individual com resistores de potência no layer inferior.
 3. **Sensoriamento Térmico Abrangente (FSAE EV4.4):**
    * Interface multiplexada para leitura de termistores NTC 10k 1% por módulo, atendendo aos requisitos de amostragem térmica de células do regulamento FSAE.
-4. **Proteção Intrínseca contra Falha:**
-   * Linhas de medição de tensão protegidas por fusíveis cerâmicos ultrarrápidos `Littelfuse 0466.125NRHF` (125 mA / 125 V, 50 A capacidade de interrupção).
-   * Diodos TVS `SMA6T68AY` e filtros RC passa-baixas diferenciais em todas as entradas de sensoriamento.
+4. **Proteção Intrínseca e Filtragem EMI (FSAE EV4.4):**
+   * Linhas de medição de tensão protegidas por resistores limitadores de corrente série (`R8, R11, R12, R15, R16` de 100 $\Omega$, 0805) e Ferrite Beads `TDK MMZ2012S102AT000` (1 k$\Omega$ @ 100 MHz, 0805), limitando correntes de curto-circuito em conformidade com o regulamento e atenuando transientes EMI do inversor trifásico.
+   * Diodo TVS automotivo `SMA6T68AY` e capacitores cerâmicos de desacoplamento ESD (100 nF / 100 V X7R) em todas as entradas de sensoriamento.
 5. **Comunicação Segura em Daisy-Chain (FSAE EV4.8 / IEC 60664):**
    * Barramento Iso-SPI diferencial serial acoplado via transformadores `Pulse HMU2103NL` ($\ge 2500\text{ V}_{RMS}$, creepage $\ge 4{,}0\text{ mm}$ e folga no layout $\ge 6{,}5\text{ mm}$).
 
@@ -46,18 +46,18 @@ Placa de 4 camadas dedicada ao monitoramento de cada bloco 5S, dotada de barreir
 
 ## Mapeamento de Pinos do Conector de Sensoriamento (J3)
 
-O conector **J3** (Molex Micro-Fit 3.0 de 16 vias — `43045-1600`) é a interface primária do BMS Slave para leitura das tensões de célula e das linhas multiplexadas de temperatura:
+O conector **J3** (Molex Micro-Fit 3.0 de 16 vias — `43045-1600`) é a interface primária do BMS Slave para leitura das tensões de célula, linhas Kelvin de corrente e termistores NTC multiplexados:
 
 | Pino J3 | Sinal | Descrição Técnica |
 |:---:|:---:|:---|
-| **1** | `BATT14` | Tensão Célula 5 (Topo do módulo, até 21.0V) |
-| **2** | `BATT13` | Tensão Célula 4 (Até 16.8V) |
-| **3** | `BATT12` | Tensão Célula 3 (Até 12.6V) |
-| **4** | `BATT2`  | Tensão Célula 2 (Até 8.4V) |
-| **5** | `BATT1`  | Tensão Célula 1 (Até 4.2V) |
+| **1** | `BATT14` | Tensão Célula 5 (Topo do módulo, até 21.0V) — Mapeado em Cell 14 do L99BM114 |
+| **2** | `BATT13` | Tensão Célula 4 (Até 16.8V) — Mapeado em Cell 13 do L99BM114 |
+| **3** | `BATT12` | Tensão Célula 3 (Até 12.6V) — Mapeado em Cell 12 do L99BM114 |
+| **4** | `BATT2`  | Tensão Célula 2 (Até 8.4V) — Mapeado em Cell 2 do L99BM114 |
+| **5** | `BATT1`  | Tensão Célula 1 (Até 4.2V) — Mapeado em Cell 1 do L99BM114 |
 | **6** | `GND_ESD`| Retorno / Referência Negativa do Módulo (0V local) |
-| **7** | *NC*     | Não conectado |
-| **8** | *NC*     | Não conectado |
+| **7** | `ISENSEM_conn` | Entrada Kelvin negativa de sensoriamento de corrente (remoto) |
+| **8** | `ISENSEP_conn` | Entrada Kelvin positiva de sensoriamento de corrente (remoto) |
 | **9** | `MUX_S2` | Linha de controle digital: Bit 2 dos multiplexadores de NTC |
 | **10**| `MUX_S1` | Linha de controle digital: Bit 1 dos multiplexadores de NTC |
 | **11**| `MUX_S0` | Linha de controle digital: Bit 0 dos multiplexadores de NTC |
@@ -66,6 +66,39 @@ O conector **J3** (Molex Micro-Fit 3.0 de 16 vias — `43045-1600`) é a interfa
 | **14**| `NTC_CH3`| Canal analógico multiplexado 3 (NTCs 17 a 24) |
 | **15**| `NTC_CH2`| Canal analógico multiplexado 2 (NTCs 9 a 16) |
 | **16**| `NTC_CH1`| Canal analógico multiplexado 1 (NTCs 1 a 8) |
+
+---
+
+## Topologia de Células, Balanceamento e Componentes DNP (Do Not Populate)
+
+### Topologia 5S no L99BM114
+O L99BM114 é um AFE automotivo configurável de 4 a 14 células em série. Conforme a Seção 6.8 do datasheet da STMicroelectronics, as células externas (`Cell 1, 2, 13 e 14`) são mandatórias. Na topologia 5S deste projeto:
+- **Células Ativas Monitoradas e Balanceadas:** `Cell 1`, `Cell 2`, `Cell 12`, `Cell 13` e `Cell 14`.
+- **Células Não Utilizadas (Cell 3 a 11):** Os pinos de entrada analógica correspondentes estão interligados internamente ao barramento `/NC2` (pinos 32 a 50) e acoplados a `B2_1` através do resistor `R5 (1 kΩ)`, garantindo estabilidade do conversor ADC e impedindo nós flutuantes.
+
+### Tabela de Componentes DNP (NÃO MONTAR)
+Os seguintes componentes estão definidos formalmente como **DNP** na montagem:
+| Componente | Função Original | Motivo do DNP no Módulo Slave |
+| :---: | :---: | :--- |
+| **`R17`** (39 $\Omega$, 2010) | Balanceamento de Cell 11 (`S11`) | Canal de célula inexistente na topologia 5S. Não montar para evitar polarização indevida do barramento `/NC2`. |
+| **`R26, R27`** (100 $\Omega$, 2512) | Filtro de medição de corrente | O shunt de corrente central de 500A está alocado no módulo Master. Entradas `CURR_P` e `CURR_M` aterradas em `AGND`. |
+| **`C23, C24, C25, C26, C27`** | Capacitores de filtro de corrente | DNP conjunto com o bloco de sensoriamento de corrente. |
+| **`R49, R50`** (0 $\Omega$, 0805) | Seleção de referência de corrente | DNP conjunto com o bloco de corrente. |
+
+---
+
+## Diretrizes de Montagem e Soldagem SMT (Assembly Guidelines)
+
+1. **Dissipação Térmica do Pad Exposto (IC1 - L99BM114-TR):**
+   - O CI L99BM114 possui um Pad Térmico Exposto central (Pad 65, 5.305 x 5.305 mm) conectado a uma **matriz 3x3 de vias térmicas (diâmetro 0.30 mm, anel 0.60 mm)** interligando as camadas `F.Cu`, `In1.Cu`, `In2.Cu` e `B.Cu` ao plano `AGND`.
+   - **Stencil do Pad Térmico:** Utilizar abertura de stencil fragmentada (janelada / *windowed array* de 4 ou 9 janelas) com cobertura de solda de **60% a 70%** da área do pad. Isso evita a formação de vazios gasosos (*voids*) e impede que a pasta de solda escorra excessivamente pelos furos das vias térmicas durante o refluxo.
+2. **Perfil de Refluxo (Reflow Profile):**
+   - Liga de solda recomendada: **SAC305 (Sn96.5 / Ag3.0 / Cu0.5)** Lead-Free, pasta Tipo 4 ou Tipo 5 (No-Clean).
+   - Temperatura de pré-aquecimento: 150 °C a 200 °C (tempo de imersão: 60 a 90 segundos).
+   - Temperatura de pico (*Peak Reflow*): **245 °C a 250 °C** (tempo acima do líquidus de 217 °C: 45 a 60 segundos).
+3. **Inspeção Pós-Montagem:**
+   - Inspecionar visualmente e com microscópio ou Raio-X o alinhamento dos pinos de 0.5 mm de pitch do L99BM114, certificando a ausência de pontes de solda (*solder bridges*) entre pinos adjacentes.
+   - Verificar a continuidade e isolação da barreira galvânica de 6.5 mm com megômetro (500 VDC, resistência de isolação $> 100\text{ M}\Omega$).
 
 ---
 

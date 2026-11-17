@@ -141,22 +141,22 @@ Cada placa escrava monitora exatamente 5 células em série e 4 a 7 termistores 
 
 | Conector | Pino | Net / Sinal | Nível Elétrico | Conexão Física no Sub-Pack |
 | :---: | :---: | :---: | :---: | :--- |
-| **`J3`**<br>(Molex Micro-Fit 3.0<br>2x08 Horizontal) | **1** | `BATT 14` | $+18{,}5\text{V}$ nom ($21\text{V}$ max) | Polo Positivo da Célula 5 ($B5+$ / Topo do Sub-Pack). |
+| **`J1`**<br>(Molex Micro-Fit 3.0<br>2x08 Horizontal<br>`43045-1600`) | **1** | `BATT 14` | $+18{,}5\text{V}$ nom ($21\text{V}$ max) | Polo Positivo da Célula 5 ($B5+$ / Topo do Sub-Pack). |
 | | **2** | `BATT 13` | $+14{,}8\text{V}$ nom | Tap entre Célula 4 e Célula 5 ($B4+$). |
 | | **3** | `BATT 12` | $+11{,}1\text{V}$ nom | Tap entre Célula 3 e Célula 4 ($B3+$). |
 | | **4** | `BATT 2` | $+7{,}4\text{V}$ nom | Tap entre Célula 2 e Célula 3 ($B2+$). |
 | | **5** | `BATT 1` | $+3{,}7\text{V}$ nom | Tap entre Célula 1 e Célula 2 ($B1+$). |
 | | **6** | `GND_ESD` | Chassis / Shield | Terminal de aterramento do invólucro do sub-pack para descarte de ESD. |
-| | **7** | `ISENSEM_conn` | Shunt (-) | Kelvin negativo do resistor shunt local (se instalado). |
-| | **8** | `ISENSEP_conn` | Shunt (+) | Kelvin positivo do resistor shunt local (se instalado). |
-| | **9** | `NTC7+` | Sinal NTC Aux | Sensor de temperatura auxiliar / ar ambiente do pack. |
-| | **10**| `NTC6+` | Sinal NTC Aux | Sensor de temperatura auxiliar da barra coletora (busbar). |
-| | **11**| `NTC1+` | Sinal NTC Célula 1 | Termistor colado no corpo cilíndrico da Célula 1. |
-| | **12**| `NTC2+` | Sinal NTC Célula 2 | Termistor colado no corpo cilíndrico da Célula 2. |
-| | **13**| `NTC3+` | Sinal NTC Célula 3 | Termistor colado no corpo cilíndrico da Célula 3. |
-| | **14**| `NTC4+` | Sinal NTC Célula 4 | Termistor colado no corpo cilíndrico da Célula 4. |
-| | **15**| `NTC5+` | Sinal NTC Célula 5 | Termistor colado no corpo cilíndrico da Célula 5. |
-| | **16**| `AGND` | $0\text{ V}$ Ref Sub-Pack | Polo Negativo da Célula 1 ($B0-$ / Fundo do Sub-Pack). |
+| | **7** | `ISENSEM_conn` | Shunt (-) | Entrada Kelvin negativa do circuito de corrente (remoto). |
+| | **8** | `ISENSEP_conn` | Shunt (+) | Entrada Kelvin positiva do circuito de corrente (remoto). |
+| | **9** | `MUX_S2` | $3{,}3\text{V} / 5\text{V}$ Lógica | Linha de controle digital: Bit 2 do multiplexador analógico de NTC (`SN74LV4051A`). |
+| | **10**| `MUX_S1` | $3{,}3\text{V} / 5\text{V}$ Lógica | Linha de controle digital: Bit 1 do multiplexador analógico de NTC (`SN74LV4051A`). |
+| | **11**| `MUX_S0` | $3{,}3\text{V} / 5\text{V}$ Lógica | Linha de controle digital: Bit 0 do multiplexador analógico de NTC (`SN74LV4051A`). |
+| | **12**| `AGND` | $0\text{ V}$ Ref Analógica | Retorno de referência do front-end analógico / Polo Negativo da Célula 1 ($B0-$). |
+| | **13**| `NTC_CH4` | Analógico ($0$ a $V_{REF}$) | Canal multiplexado 4 de leitura dos termistores NTC de células. |
+| | **14**| `NTC_CH3` | Analógico ($0$ a $V_{REF}$) | Canal multiplexado 3 de leitura dos termistores NTC de células. |
+| | **15**| `NTC_CH2` | Analógico ($0$ a $V_{REF}$) | Canal multiplexado 2 de leitura dos termistores NTC de células. |
+| | **16**| `NTC_CH1` | Analógico ($0$ a $V_{REF}$) | Canal multiplexado 1 de leitura dos termistores NTC de células. |
 | **`J4`**<br>(Micro-Fit 2x02) | **1, 2**| `GND_EXT` | Malha de blindagem | Blindagem de cabo do barramento IsoSPI inferior (porta de entrada). |
 | | **3** | `ISOLM_c` | $\pm 1{,}5\text{V}$ diff | Linha diferencial negativa IsoSPI (de Master ou Slave anterior). |
 | | **4** | `ISOLP_c` | $\pm 1{,}5\text{V}$ diff | Linha diferencial positiva IsoSPI (de Master ou Slave anterior). |
@@ -219,7 +219,30 @@ A comunicação de dados entre a Master e os 4 Slaves é realizada através de u
 
 ## 3. Manual de Montagem e Testes em Bancada (Bench Testing SOP)
 
-### 3.1. EPIs Mandatórios e Requisitos Antiestáticos (ESD)
+### 3.1. Diretrizes de Montagem e Soldagem SMT das Placas BMS 5S Slave (L99BM114-TR)
+
+#### A. Dissipação Térmica e Soldagem do Pad Exposto (Pad 65 de IC1)
+* **Estrutura Térmica:** O ASIC L99BM114 está em encapsulamento TQFP-64-1EP com pad central exposto de $5{,}305 \times 5{,}305\text{ mm}$ interligado a uma **matriz 3x3 de vias térmicas (diâmetro de broca $0{,}30\text{ mm}$, anel de $0{,}60\text{ mm}$)** que costura o pad diretamente aos planos internos de terra analógica (`In1.Cu` e `In2.Cu`) e à camada inferior (`B.Cu`).
+* **Abertura de Stencil (Pasta de Solda):** Não aplicar pasta de solda em área contínua sobre o pad 65. Utilizar abertura janelada (*windowed stencil pattern*) com **4 ou 9 janelas quadradas**, garantindo uma cobertura de solda de **60% a 70%** da área total do pad. Isso evita a formação de bolhas de ar (*voids*) sob a pastilha de silício e impede que a pasta escorra pelos furos das vias para o layer inferior durante o refluxo.
+* **Perfil Térmico de Refluxo (Reflow Profile):**
+  - Liga de Solda: **SAC305** Lead-Free (Sn96.5 / Ag3.0 / Cu0.5), pasta No-Clean Tipo 4 ou 5.
+  - Pré-aquecimento (*Soak*): $150\,^\circ\text{C}$ a $200\,^\circ\text{C}$ por $60\text{ s}$ a $90\text{ s}$.
+  - Pico de Refluxo (*Peak Temperature*): **$245\,^\circ\text{C}$ a $250\,^\circ\text{C}$** (tempo acima do ponto de fusão $217\,^\circ\text{C}$: $45\text{ s}$ a $60\text{ s}$ máx).
+
+#### B. Componentes com Montagem Proibida — Lista DNP (Do Not Populate)
+Antes da liberação para produção ou montagem manual, certifique-se de que os seguintes componentes **NÃO SEJAM SOLDADOS**:
+1. **`R17` (39 $\Omega$, 2010, 3/4W):** Canal de balanceamento `S11`. Como o módulo é 5S, a Cell 11 é inexistente e seus pinos estão agrupados no barramento amortecedor `/NC2`. Soldar `R17` causará sobrecarga e polarização errônea do circuito interno.
+2. **`R26` e `R27` (100 $\Omega$, 2512, 1W) e Capacitores `C23-C27`:** Bloco de sensoriamento de corrente analógico. O acumulador utiliza 1 único Shunt central de 500A/100mV posicionado junto ao Master Shield. No módulo Slave, as entradas de corrente `CURR_P` e `CURR_M` devem permanecer aterradas em `AGND`.
+3. **`R49` e `R50` (0 $\Omega$, 0805):** Jumpers de configuração de ganho/referência do Shunt local.
+
+#### C. Conformidade Regulatória FSAE EV4.4 (Proteção das Linhas de Sensoriamento)
+* **Justificativa Técnica para Scrutineering:** Cada condutor de medição de tensão de célula que entra pela placa via conector `J1` passa obrigatoriamente por um **resistor limitador de corrente de $100\,\Omega$ em série (`R8, R11, R12, R15, R16`)** associado a um **Ferrite Bead automotivo `TDK MMZ2012S102AT000` (1 k$\Omega$ @ 100 MHz)**. Em caso de falha catastrófica interna no ASIC ou curto-circuito no front-end, a corrente máxima de falta fica limitada a:
+  $$I_{curto} = \frac{V_{cell,max}}{R_{serie}} = \frac{4{,}20\text{ V}}{100\text{ }\Omega} = 42\text{ mA}$$
+  Essa corrente dissipa apenas $176\text{ mW}$ no resistor 0805, valor incapaz de provocar ignição, aquecimento excessivo de fios de medição ou rompimento de isolação de chicote, atendendo integralmente ao espírito e letra da regra FSAE EV4.4.
+
+---
+
+### 3.2. EPIs Mandatórios e Requisitos Antiestáticos (ESD)
 1. **Luvas de Proteção:** Luvas de isolamento elétrico classe 00 (500V) para manipulação de células ou chicotes com tensão agregada $> 30\text{ V}$.
 2. **Óculos de Segurança:** Obrigatório durante qualquer soldagem, conexão ou teste sob tensão.
 3. **Manta e Pulseira Antiestática:** A bancada deve possuir manta dissipativa com resistor de aterramento de $1\text{ M}\Omega$. O operador deve utilizar pulseira antiestática ao tocar nas placas desenergizadas.
@@ -227,7 +250,7 @@ A comunicação de dados entre a Master e os 4 Slaves é realizada através de u
 
 ---
 
-### 3.2. Acoplamento Mecânico Master Shield + NUCLEO-G474RE
+### 3.3. Acoplamento Mecânico Master Shield + NUCLEO-G474RE
 1. Inspecione visualmente se os pinos dos conectores Morpho fêmea `J1` e `J2` no verso da Master Shield estão perfeitamente alinhados e sem resíduos de solda.
 2. Posicione a placa **NUCLEO-G474RE** sobre uma superfície rígida e isolante.
 3. Instale **4 espaçadores hexagonais de nylon M3 (comprimento 11 mm)** nos furos de canto da Nucleo.
@@ -237,7 +260,7 @@ A comunicação de dados entre a Master e os 4 Slaves é realizada através de u
 
 ---
 
-### 3.3. Regra de Ouro: Sequência Estrita de Ligação das Células
+### 3.4. Regra de Ouro: Sequência Estrita de Ligação das Células
 
 > [!CAUTION]
 > **RISCO DE DESTRUIÇÃO DO CIRCUITO INTEGRADO AFE (L99BM114):**  
@@ -245,29 +268,30 @@ A comunicação de dados entre a Master e os 4 Slaves é realizada através de u
 
 #### Procedimento Mandatório para Conexão de Bancada:
 1. **Opção A (Recomendada - Conector Completo Pré-Montado):**
-   - Monte o chicote de teste de 5 células com o conector Molex Micro-Fit `J3` **completamente desacoplado da placa**.
+   - Monte o chicote de teste de 5 células com o conector Molex Micro-Fit `J1` **completamente desacoplado da placa**.
    - Conecte as 5 derivações de célula aos bornes ou bateria de teste.
    - Meça com multímetro nos terminais fêmea do conector:
-     - Pino 16 ($AGND$) para Pino 5 ($B1$): deve medir $+3{,}0\text{V}$ a $+4{,}2\text{V}$.
-     - Pino 16 ($AGND$) para Pino 4 ($B2$): deve medir $+6{,}0\text{V}$ a $+8{,}4\text{V}$.
-     - Pino 16 ($AGND$) para Pino 3 ($B3$): deve medir $+9{,}0\text{V}$ a $+12{,}6\text{V}$.
-     - Pino 16 ($AGND$) para Pino 2 ($B4$): deve medir $+12{,}0\text{V}$ a $+16{,}8\text{V}$.
-     - Pino 16 ($AGND$) para Pino 1 ($B5$): deve medir $+15{,}0\text{V}$ a $+21{,}0\text{V}$.
-   - Estando as tensões e polaridades 100% corretas, insira o conector `J3` na placa **em um único movimento firme e retilíneo**, travando o trinco plástico.
+     - Pino 12 ($AGND$) para Pino 5 ($B1$): deve medir $+3{,}0\text{V}$ a $+4{,}2\text{V}$.
+     - Pino 12 ($AGND$) para Pino 4 ($B2$): deve medir $+6{,}0\text{V}$ a $+8{,}4\text{V}$.
+     - Pino 12 ($AGND$) para Pino 3 ($B3$): deve medir $+9{,}0\text{V}$ a $+12{,}6\text{V}$.
+     - Pino 12 ($AGND$) para Pino 2 ($B4$): deve medir $+12{,}0\text{V}$ a $+16{,}8\text{V}$.
+     - Pino 12 ($AGND$) para Pino 1 ($B5$): deve medir $+15{,}0\text{V}$ a $+21{,}0\text{V}$.
+   - Estando as tensões e polaridades 100% corretas, insira o conector `J1` na placa **em um único movimento firme e retilíneo**, travando o trinco plástico.
 
 2. **Opção B (Conexão Fio a Fio com Garras de Prova):**
    - Conecte estritamente na seguinte ordem cronológica:
-     1. `Pino 16 (AGND / B0-)`
-     2. `Pino 5 (BATT 1)`
-     3. `Pino 4 (BATT 2)`
-     4. `Pino 3 (BATT 12)`
-     5. `Pino 2 (BATT 13)`
-     6. `Pino 1 (BATT 14 / B5+)`
-     7. Pinos dos termistores NTC (Pinos 11 a 15).
+     1. `Pino 6 (GND_ESD / Chassis Shield)`
+     2. `Pino 12 (AGND / Polo Negativo B0-)`
+     3. `Pino 5 (BATT 1)`
+     4. `Pino 4 (BATT 2)`
+     5. `Pino 3 (BATT 12)`
+     6. `Pino 2 (BATT 13)`
+     7. `Pino 1 (BATT 14 / Topo B5+)`
+     8. Pinos de sinal e controle NTC (Pinos 9, 10, 11 e 13 a 16).
 
 ---
 
-### 3.4. Procedimento Seguro de Energização de Baixa Tensão (Power-Up)
+### 3.5. Procedimento Seguro de Energização de Baixa Tensão (Power-Up)
 1. Conecte a fonte de bancada ajustada para **$+12{,}0\text{ Vcc}$ com limite de corrente em $300\text{ mA}$** ao conector `J3` da Master Shield (Pino 1 = GND, Pino 2 = +12V).
 2. Ligue a fonte e observe a corrente consumida:
    - **Corrente Normal:** Entre $80\text{ mA}$ e $140\text{ mA}$ (com LEDs acesos e Nucleo rodando).
